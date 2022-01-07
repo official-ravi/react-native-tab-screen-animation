@@ -16,6 +16,8 @@ import {
   Text,
   View,
 } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import Home from './src/screens/Home';
 import ScreenA from './src/screens/ScreenA';
 import ScreenB from './src/screens/ScreenB';
@@ -90,9 +92,12 @@ const AppStack = () => {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}
-    // headerMode="none"
+
     >
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home" component={Home}
+        options={{
+          ...customTransition,
+        }} />
       <Stack.Screen name="ScreenA" component={ScreenA}
         options={{
           gestureDirection: 'vertical',
@@ -123,7 +128,7 @@ const AppStack = () => {
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
         }}
       />
-       <Stack.Screen name="ScreenE" component={ScreenE}
+      <Stack.Screen name="ScreenE" component={ScreenE}
         options={{
           gestureDirection: 'vertical-inverted',
           cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid,
@@ -133,11 +138,41 @@ const AppStack = () => {
   )
 }
 
+
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home!</Text>
+    </View>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+const TabStack = () => {
+  return (
+    <Tab.Navigator headerMode="none">
+      <Tab.Screen name="Home" component={AppStack} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
+  )
+}
+
+
+
 const App = () => {
 
   return (
     <NavigationContainer>
-      <AppStack />
+      <TabStack />
     </NavigationContainer>
   );
 };
